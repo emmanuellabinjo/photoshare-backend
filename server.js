@@ -1,5 +1,11 @@
-const { webcrypto } = require("crypto");
-globalThis.crypto = webcrypto;
+// Polyfill crypto for Azure SDK compatibility
+if (typeof globalThis.crypto === 'undefined') {
+  const { webcrypto } = require('crypto');
+  globalThis.crypto = webcrypto;
+}
+if (typeof globalThis.crypto.randomUUID === 'undefined') {
+  globalThis.crypto.randomUUID = () => require('crypto').randomUUID();
+}
 
 require("dotenv").config();
 const express = require("express");
