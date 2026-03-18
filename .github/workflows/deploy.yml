@@ -23,7 +23,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/photoshare-api:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/photoshare-api:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/photoshare-api:${{ github.sha }}
 
       - name: Log in to Azure
         uses: azure/login@v1
@@ -35,4 +37,4 @@ jobs:
         with:
           containerAppName: photoshare-api
           resourceGroup: photoshare-rg
-          imageToDeploy: ${{ secrets.DOCKERHUB_USERNAME }}/photoshare-api:latest
+          imageToDeploy: ${{ secrets.DOCKERHUB_USERNAME }}/photoshare-api:${{ github.sha }}
