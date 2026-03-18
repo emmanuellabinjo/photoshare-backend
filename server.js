@@ -24,6 +24,15 @@ app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/debug", (req, res) => {
+  res.json({
+    nodeVersion: process.version,
+    hasCrypto: typeof crypto !== 'undefined',
+    hasGlobalCrypto: typeof globalThis.crypto !== 'undefined',
+    hasRandomUUID: typeof globalThis.crypto?.randomUUID !== 'undefined',
+  });
+});
+
 // ─── Health check ─────────────────────────────────────────────────────────────
 app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString(), service: "photoshare-api" });
